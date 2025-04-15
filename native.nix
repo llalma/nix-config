@@ -4,13 +4,13 @@
 
   # Configure rootfs
   fileSystems."/" = {
-    device = "/dev/disk/by-label/sda1";  
+    device = "/dev/disk/by-label/nixos";  
     fsType = "ext4";  
   };
 
   boot.loader.grub = {
     enable = true;
-    devices = [ "/dev/disk/by-label/sda1" ];  
+    devices = [ "/dev/disk/by-label/nixos" ];  
   };
 
   # Networking
