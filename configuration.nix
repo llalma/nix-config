@@ -9,12 +9,8 @@ in
   imports = [
     (import "${home-manager}/nixos")
   ]
-  ++ (if isWSL then [ <nixos-wsl/modules> ] else []);
+  ++ (if isWSL then [ ./wsl.nix ] else []);
       
-  wsl =  lib.mkIf isWSL {
-    enable = true;
-    wsl.defaultUser = "llalma";
-  };
 
   system.stateVersion = "24.11"; 
 
