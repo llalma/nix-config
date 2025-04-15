@@ -3,20 +3,19 @@
 
 let
   home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/release-24.11.tar.gz;
+  isWSL = builtins.pathExists "/proc/sys/fs/binfmt_misc/WSLInterop";
 in
 {
-
-  lib.mkIf (builtins.pathExists "/proc/sys/fs/binfmt_misc/WSLInterop") {
-    imports = [
-      <nixos-wsl/modules>
-    ];
-    wsl.enable = true;
-    wsl.defaultUser = "llalma";
-  };
-
   imports = [
     (import "${home-manager}/nixos")
-  ];
+  ]
+  ++ (if isWSL then [ <nixos-wsl/modules> ] else []);
+      
+  wsl =  lib.mkIf isWSL {
+    enable = true;
+    wsl.defaultUser = "llalma";
+  }
+
 
 
   system.stateVersion = "24.11"; 
