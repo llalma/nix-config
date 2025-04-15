@@ -5,7 +5,7 @@
     <nixos-wsl/modules>
   ]
 
-  wsl.enable = truel
-  wsl.defaultUser= "llalma";
+  wsl.enable = true
+  wsl.defaultUser = "llalma";
 
 }
