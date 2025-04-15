@@ -9,7 +9,7 @@ in
   imports = [
     (import "${home-manager}/nixos")
   ]
-  ++ (if isWSL then [ ./wsl.nix ] else []);
+  ++ (if isWSL then [ ./wsl.nix ] else [ ./native.nix ]);
       
 
   system.stateVersion = "24.11"; 
