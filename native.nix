@@ -16,7 +16,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Networking
-  networking.hostname = "nixos-server";
+  networking.hostName = "nixos-server";
   networking.wireless.enable = true;
   networking.wireless.networks = {
     "FinallyNBN" = {
