@@ -2,19 +2,21 @@
 
 {
 
+  imports = [
+    ./hardware-configuration.nix
+  ];
+
   # Configure rootfs
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";  
     fsType = "ext4";  
   };
 
-  boot.loader.grub = {
-    enable = true;
-    efiSupport = true; 
-    devices = [ "nodev" ];
-  };
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # Networking
+  networking.hostname = "nixos-server"
   networking.wireless.enable = true;
   networking.wireless.networks = {
     "FinallyNBN" = {
