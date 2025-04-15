@@ -10,7 +10,7 @@
 
   boot.loader.grub = {
     enable = true;
-    devices = [ "/dev/sda1" ];  
+    devices = [ "/dev/dix/by-label/sda1" ];  
   };
 
   # Networking
