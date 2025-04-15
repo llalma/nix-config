@@ -14,9 +14,7 @@ in
   wsl =  lib.mkIf isWSL {
     enable = true;
     wsl.defaultUser = "llalma";
-  }
-
-
+  };
 
   system.stateVersion = "24.11"; 
   
