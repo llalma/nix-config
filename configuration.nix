@@ -6,7 +6,7 @@ let
 in
 {
 
-  config = lib.mkIf (builtins.pathExists "/proc/sys/fs/binfmt_misc/WSLInterop") {
+  lib.mkIf (builtins.pathExists "/proc/sys/fs/binfmt_misc/WSLInterop") {
     imports = [
       <nixos-wsl/modules>
     ];
