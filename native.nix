@@ -10,7 +10,7 @@
 
   boot.loader.grub = {
     enable = true;
-    devices = [ "/dev/sda" ];  
+    devices = [ "/dev/disk/by-label/nixos" ];  
   };
 
   # Networking
