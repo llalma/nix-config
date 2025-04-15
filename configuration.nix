@@ -17,6 +17,11 @@ in
   };
 
   system.stateVersion = "24.11"; 
+
+  # Networking - use google dns servers
+  networking = {
+    nameservers = [ "8.8.8.8" "8.8.4.4" ];
+  };
   
   # Config for personal user
   users.users.llalma.isNormalUser = true;
