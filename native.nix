@@ -10,7 +10,8 @@
 
   boot.loader.grub = {
     enable = true;
-    devices = [ "/dev/disk/by-label/nixos" ];  
+    efiSupport = true; 
+    devices = [ "nodev" ];
   };
 
   # Networking
