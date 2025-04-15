@@ -2,6 +2,7 @@
 
 {
 
+  # Configure rootfs
   fileSystems."/" = {
     device = "/dev/disk/by-label/sda1";  
     fsType = "ext4";  
@@ -12,7 +13,9 @@
     devices = [ "/dev/sda1" ];  
   };
 
-  wsl.enable = truel
-  wsl.defaultUser= "llalma";
+  # Networking
+  networking.networkmanager.enable = true;
+  users.users.llalma.extraGroups = [ "networkmanager" ];
+
 
 }
