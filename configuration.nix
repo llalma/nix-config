@@ -44,7 +44,10 @@ in
       extraConfig = "";
     };
 
+
     home.file = {
+
+	# Nvim config
       ".config/nvim" = {
         source = builtins.fetchGit {
           url = "https://github.com/llalma/nvim-config.git";
@@ -52,11 +55,15 @@ in
         };
         recursive = true;
       };
+      
     };
 
     home.packages = with pkgs; [
+
+      # Packages for zellij
       gcc
       gnumake
+
     ];
 
     programs.zellij = {
