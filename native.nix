@@ -24,28 +24,37 @@
      wireguard-tools
   ];
 
-    # Create config file for wireguard
-  environment.etc."wireguard/wireguard.conf" = {
-    text = builtins.getEnv "WIREGUARD_CONF";
+  # Start SSHD
+  services.openssh = {
+    enable = true;
+  };
+  
+
+	###
+	# VPN Config
+	###
+  # Create config file for wireguard
+  environment.etc."wireguard/privatekey" = {
+    text = builtins.getEnv "WIREGUARD_PRIVATE_KEY";
     mode = "0600";
   };
-
-  # Configure wireguard
-  systemd.services.wireguard = {
-    after = ["network.target"];
-    wantedBy = [ "multi-user.target" ];
-    environment.DEVICE = "wg0";
-    path = [ pkgs.wireguard-tools ];
-
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = "${pkgs.wireguard-tools}/bin/wg-quick up /etc/wireguard/wireguard.conf";
-      ExecStop = "${pkgs.wireguard-tools}/bin/wg-quick down /etc/wireguard/wireguard.conf";
+	
+	networking.wg-quick.interfaces = {
+    wg0 = {
+      address = [ "100.119.66.95/32" ];
+      dns = ["10.255.255.3"] ;
+      privateKeyFile = "/etc/wireguard/privatekey";
+      
+      peers = [
+        {
+          publicKey = "sDDXsvjyVqpB8fecUsjX0/Y8YdZye+oiV1Dy9BfUkwE=";
+          presharedKey = "1EDNSdxzbdnB48exicuaLKiv6xnJa8SXDxPXSHR4Mls=";
+          allowedIPs = [ "0.0.0.0/0" "::/0" ];
+          endpoint = "mel-224-wg.whiskergalaxy.com:443";
+          persistentKeepalive = 25;
+        }
+      ];
     };
   };
-  networking.nat.enable = true;
-  networking.nat.externalInterface = "eth0";  
-  networking.nat.internalInterfaces = [ "wg0" ];
-
+   
 }

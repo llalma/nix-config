@@ -14,13 +14,12 @@ in
 
   system.stateVersion = "24.11"; 
 
-  # Networking - use google dns servers
-  networking = {
-    nameservers = [ "8.8.8.8" "8.8.4.4" ];
-  };
-  
   # Config for personal user
   users.users.llalma.isNormalUser = true;
+  users.extraUsers.llalma = {
+    isNormalUser = true;
+    extraGroups = ["wheel"];
+  };
   home-manager.users.llalma = { pkgs, ... }: {
     programs.bash.enable = true;
     programs.git = {
