@@ -5,6 +5,7 @@
 
   imports = [
     ./hardware-configuration.nix
+		./nginx.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -18,6 +19,19 @@
       pskRaw = "47c966e97407a15427a240dc758e45ab2a18a6cfd1b1904800973515734fa3aa";
     };
   };
+
+	
+	# Allows exposing containers over network
+	networking.nat = {
+		enable = true;
+		# Use "ve-*" when using nftables instead of iptables
+		internalInterfaces = ["ve-+"];
+		externalInterface = "eth0";
+		# Lazy IPv6 connectivity for the container
+		enableIPv6 = true;
+	};
+
+	networking.firewall.allowedTCPPorts = [80 443];
 
   # Package install
   environment.systemPackages = with pkgs; [

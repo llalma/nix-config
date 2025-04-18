@@ -8,75 +8,38 @@ in
 {
   imports = [
     (import "${home-manager}/nixos")
+		./users/llalma.nix
   ]
-  ++ (if isWSL then [ ./wsl.nix ] else [ ./native.nix ]);
+  ++ (if isWSL then
+				[ ./wsl.nix ]
+			else 
+				[ 
+					./native.nix 
+					./users/plex.nix
+				]
+			);
       
 
   system.stateVersion = "24.11"; 
 
-  # Config for personal user
-  users.users.llalma.isNormalUser = true;
-  users.extraUsers.llalma = {
-    isNormalUser = true;
-    extraGroups = ["wheel"];
-  };
-  home-manager.users.llalma = { pkgs, ... }: {
-    programs.bash.enable = true;
-    programs.git = {
-      enable = true;
-      userName = "llalma";
-      userEmail = "llalma@gmail.com";
-    };
-    programs.lazygit.enable = true;
-    programs.fzf = {
-      enable = true;
-      enableBashIntegration = true;
-    };
- 
-    # Configure neovim
-    programs.neovim = {
-      enable = true;
-      defaultEditor = true;
-      viAlias = true;
-      vimAlias = true;
-      vimdiffAlias = true;
-      extraConfig = "";
-    };
+	# Users in wheel dont need password for sudo
+	security.sudo.wheelNeedsPassword = false;
+	
+	# Enable rootless docker
+  # virtualisation.docker.rootless = {
+  #   enable = true;
+  #   setSocketVariable = true;
+  # };
 
+	# Install system packages
+	environment.systemPackages = [
+		pkgs.dbus
+		pkgs.nixos-container
+	];
 
-    home.file = {
-
-	# Nvim config
-      ".config/nvim" = {
-        source = builtins.fetchGit {
-          url = "https://github.com/llalma/nvim-config.git";
-          ref = "master"; 
-        };
-        recursive = true;
-      };
-      
-    };
-
-    home.packages = with pkgs; [
-
-      # Packages for zellij
-      gcc
-      gnumake
-
-    ];
-
-    programs.zellij = {
-      enable = true;
-      enableBashIntegration = true;
-      settings = {
-      	attachExistingSession = true;
-      	exitShellOnExit = true;
-      };
-    };
-  
-    # The state version is required and should stay at the version you
-    # originally installed.
-    home.stateVersion = "24.11";
-  };
+	# Networking
+	networking.firewall.allowedTCPPorts = [ 
+		32400 # Open plex port
+	];
 
 }
